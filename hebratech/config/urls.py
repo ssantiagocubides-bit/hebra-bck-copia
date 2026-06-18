@@ -24,5 +24,6 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('recuperar/', recuperar_view, name='recuperar'),
     path('home/', home_view, name='home'),
-    path('clientes/', include('clientes.urls')),
+    path('clientes/', include('apps.clientes.urls')),
+    
 ]

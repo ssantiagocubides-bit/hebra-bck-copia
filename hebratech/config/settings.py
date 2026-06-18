@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.usuarios',
-    'apps.clientes',  
-]
+    'apps.clientes',
+]   
 
 
 MIDDLEWARE = [
@@ -75,17 +75,15 @@ WSGI_APPLICATION = 'hebratech.config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# Busca esto en tu settings.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'hebratech',
-        'USER': 'root',         # tu usuario de MySQL
-        'PASSWORD': '12345',         # tu contraseña (vacía si usas XAMPP sin pass)
+        'USER': 'root',
+        'PASSWORD': '',  # <-- Déjalo así, vacío, sin espacios entre las comillas
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
     }
 }
 
@@ -133,3 +131,13 @@ import os
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# Al final de tu config/settings.py
+
+# --- PARCHE DE COMPATIBILIDAD PARA MARIADB/MYSQL ---
+import django.db.backends.mysql.base
+from django.db.backends.mysql.base import DatabaseFeatures
+
+# Desactivamos el uso de RETURNING que está causando el error 1064
+DatabaseFeatures.can_return_rows_from_bulk_insert = False
+DatabaseFeatures.has_select_for_update_returning = False

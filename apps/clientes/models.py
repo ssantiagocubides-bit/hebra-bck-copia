@@ -14,7 +14,7 @@ class Usuario(models.Model):
 
     class Meta:
         db_table = 'usuarios'
-        managed = False  # Django NO toca esta tabla
+        managed = True  # <-- CAMBIADO: Django ahora SÍ creará esta tabla
 
 
 class Cliente(models.Model):
@@ -36,7 +36,7 @@ class Cliente(models.Model):
 
     class Meta:
         db_table = 'clientes'
-        managed = False
+        managed = True  # <-- CAMBIADO
 
 
 class Producto(models.Model):
@@ -48,7 +48,7 @@ class Producto(models.Model):
 
     class Meta:
         db_table = 'productos'
-        managed = False
+        managed = True  # <-- CAMBIADO
 
 
 class Orden(models.Model):
@@ -85,5 +85,5 @@ class Orden(models.Model):
     )
 
     class Meta:
-        db_table = 'ordenes'
-        managed = False
+        db_table = 'orden'  # <-- CAMBIADO A SINGULAR: Para que coincida con tu backend
+        managed = True  # <-- CAMBIADO

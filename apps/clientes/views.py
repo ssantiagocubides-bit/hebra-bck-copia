@@ -76,3 +76,26 @@ def registrar_orden(request):
 def orden_exitosa(request, idOrden):
     orden = Orden.objects.get(idOrden=idOrden)
     return render(request, 'clientes/orden_exitosa.html', {'orden': orden})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        rol_seleccionado = request.POST.get('role')
+        
+        # Esto imprimirá en tu terminal lo que llega del formulario
+        print(f"--- ROL SELECCIONADO EN EL FORMULARIO: '{rol_seleccionado}' ---")
+        
+        # Forzamos a que ignore mayúsculas/minúsculas y espacios
+        if rol_seleccionado and rol_seleccionado.strip().lower() == 'cliente':
+            return redirect('/clientes/portal/')
+            
+        elif rol_seleccionado and rol_seleccionado.strip().lower() == 'administrador':
+            return redirect('vista_admin')
+            
+        elif rol_seleccionado and rol_seleccionado.strip().lower() == 'operario':
+            return redirect('vista_operario')
+            
+        else:
+            print("⚠️ El rol no coincidió con ninguna condición, por eso se reinicia.")
+            
+    return render(request, 'usuarios/login.html')
