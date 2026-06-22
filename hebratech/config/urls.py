@@ -6,4 +6,5 @@ urlpatterns = [
     path('', include('apps.usuarios.urls')),
     path('clientes/', include('apps.clientes.urls')),
     path('produccion/', include('apps.produccion.urls')),
+    path('operario/', include('apps.operarios.urls', namespace='operarios')),
 ]

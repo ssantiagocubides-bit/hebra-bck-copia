@@ -1,0 +1,86 @@
+/* ============================================================
+   operario.css — estilos de soporte para el tablero Kanban
+   La paleta base (fondo oscuro, acentos verde-petróleo) ya viene
+   inline en el template; aquí solo van estados que CSS puro no
+   puede expresar bien inline: drag&drop, hover, scrollbars.
+   ============================================================ */
+
+.kanban-column {
+  min-height: 200px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.drop-zone {
+  min-height: 80px;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease;
+}
+
+.drop-zone.drag-over {
+  background-color: rgba(165, 201, 202, 0.08);
+  outline: 2px dashed rgba(165, 201, 202, 0.35);
+  outline-offset: 4px;
+}
+
+.task-card {
+  background: #1E2224;
+  border: 1px solid rgba(165, 201, 202, 0.12);
+  border-radius: 0.65rem;
+  padding: 0.85rem 1rem;
+  cursor: grab;
+  transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.task-card:hover {
+  border-color: rgba(165, 201, 202, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.task-card:active,
+.task-card.dragging {
+  cursor: grabbing;
+  opacity: 0.55;
+  transform: scale(0.98);
+}
+
+.task-card .task-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #E8EDED;
+}
+
+.task-card .task-meta {
+  font-size: 0.78rem;
+  color: #8FA8AA;
+}
+
+.priority-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.priority-Urgente { background: #E5484D; }
+.priority-Alta    { background: #F4A259; }
+.priority-Media   { background: #A5C9CA; }
+.priority-Baja    { background: #6FCF97; }
+
+.empty-column-hint {
+  font-size: 0.82rem;
+  color: #5A6E70;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  border: 1px dashed rgba(165, 201, 202, 0.15);
+  border-radius: 0.6rem;
+}
+
+/* Scrollbars discretos para los dropdowns largos */
+.dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: rgba(165, 201, 202, 0.25);
+  border-radius: 3px;
+}
