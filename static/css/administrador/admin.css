@@ -1,0 +1,276 @@
+/* ==========================================================================
+   HebraTech — Sistema de Administración General
+   Hoja de Estilos Corporativa (cssadmin.css)
+   ========================================================================== */
+
+:root {
+    /* Paleta de Colores Institucional */
+    --primary: #1F4E5B;          /* Verde azulado profundo (Fondo de Sidebar / Base) */
+    --primary-deep: #112B3C;     /* Azul oscuro profundo (Gradientes y contrastes oscuros) */
+    --primary-dark: #2C3E50;     /* Gris azulado oscuro (Textos principales sobre fondo claro) */
+    --accent: #4FBDBA;           /* Aguamarina brillante (Iconos, estados activos y acentos) */
+    --bg-main: #F7F9FA;          /* Gris claro limpio (Fondo general de la aplicación) */
+    --bg-mid: #F0F5F5;           /* Fondo intermedio sutil para alertas y encabezados de tablas */
+    --border-solid: #E5E9E9;     /* Bordes sutiles y limpios */
+    --inactive: #7F8C8D;         /* Gris para textos secundarios o deshabilitados */
+    --white: #FFFFFF;            /* Blanco puro para tarjetas y contenedores */
+    
+    /* Tipografías */
+    --ff-display: 'Poppins', 'Segoe UI', sans-serif;
+    --ff-body: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ==========================================================================
+   Estilos Generales de la Aplicación
+   ========================================================================== */
+body {
+    background-color: var(--bg-main);
+    font-family: var(--ff-body);
+    color: var(--primary-dark);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Tipografía Especial */
+.graduate {
+    font-family: 'Graduate', Georgia, serif;
+    letter-spacing: 1px;
+    color: var(--white);
+}
+
+/* ==========================================================================
+   Sidebar (Menú Lateral de Navegación)
+   ========================================================================== */
+aside {
+    background-color: var(--primary);
+    color: var(--white);
+    border-right: 1px solid rgba(17, 43, 60, 0.2);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 1020;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Enlaces del Sidebar */
+.sidebar-link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.sidebar-link:hover, 
+.sidebar-link:focus {
+    color: var(--accent) !important;
+    background-color: rgba(255, 255, 255, 0.06);
+    text-decoration: none;
+}
+
+/* Subenlaces del Sidebar */
+.sidebar-link-sub {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 8px 16px 8px 32px;
+    font-size: 0.88rem;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link-sub:hover {
+    color: var(--accent) !important;
+    background-color: rgba(255, 255, 255, 0.04);
+    padding-left: 36px;
+    text-decoration: none;
+}
+
+/* Control de Colapsables internos */
+#usuariosMenu {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 4px;
+    padding: 4px 0;
+}
+
+/* ==========================================================================
+   Navbar Superior (Topbar)
+   ========================================================================== */
+.custom-navbar {
+    min-height: 70px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Animación del Indicador En Vivo */
+@keyframes livePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(79, 189, 186, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(79, 189, 186, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(79, 189, 186, 0);
+    }
+}
+
+/* Botón de Notificaciones y Dropdowns de la Barra */
+.custom-navbar .btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-navbar .btn:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Tarjetas del Dashboard e Interfaces Claras
+   ========================================================================== */
+.dashboard-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-solid);
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(31, 78, 91, 0.08) !important;
+}
+
+/* Títulos dentro de las tarjetas */
+.dashboard-card h2, 
+.dashboard-card h4, 
+.dashboard-card h5 {
+    font-family: var(--ff-display);
+    font-weight: 600;
+}
+
+/* Listas dentro de tarjetas */
+.list-group-item {
+    border-color: var(--border-solid) !important;
+    padding: 12px 0;
+}
+
+/* ==========================================================================
+   Tablas de Datos (Directorio de Usuarios, etc.)
+   ========================================================================== */
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-solid);
+}
+
+.table {
+    margin-bottom: 0;
+    background-color: var(--white);
+}
+
+.table thead th {
+    background-color: var(--bg-mid);
+    color: var(--primary-dark);
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 2px solid var(--border-solid);
+    padding: 14px;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    color: var(--primary-dark);
+    padding: 14px;
+    font-size: 0.92rem;
+    border-bottom: 1px solid var(--border-solid);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(79, 189, 186, 0.04);
+}
+
+/* ==========================================================================
+   Modales y Formularios
+   ========================================================================== */
+.modal-content {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(17, 43, 60, 0.15);
+}
+
+.modal-header {
+    background-color: var(--bg-mid);
+    border-bottom: 1px solid var(--border-solid);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    padding: 18px 24px;
+}
+
+.modal-title {
+    font-family: var(--ff-display);
+    color: var(--primary);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-solid);
+    padding: 16px 24px;
+}
+
+/* Form Controls Personalizados */
+.form-control, .form-select {
+    border: 1.5px solid var(--border-solid);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    color: var(--primary-dark);
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79, 189, 186, 0.15);
+    outline: none;
+}
+
+/* ==========================================================================
+   Componentes de Estado e UI (Progress bars, Badges)
+   ========================================================================== */
+.progress {
+    background-color: rgba(165, 201, 202, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    border-radius: 8px;
+    background-color: var(--primary);
+}
+
+.badge {
+    padding: 6px 10px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+/* Control de transiciones de las secciones SPA */
+.seccion-admin {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -6,5 +6,8 @@ urlpatterns = [
     path('', include('apps.usuarios.urls')),
     path('clientes/', include('apps.clientes.urls')),
     path('produccion/', include('apps.produccion.urls')),
-    path('operario/', include('apps.operarios.urls', namespace='operarios')),
+    
+    # 🛠️ Corrección aquí: Pasamos una tupla (ruta, app_name) para que acepte el namespace
+    path('operario/', include(('apps.operarios.urls', 'operarios'), namespace='operarios')),
+    path('administrador/', include(('apps.administrador.urls', 'administrador'), namespace='administrador')),
 ]

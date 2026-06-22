@@ -1,0 +1,391 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HebraTech — Administración Total</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/administrador/admin.css' %}">
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <aside class="col-lg-2 col-md-3 d-none d-md-block p-0" style="min-height:100vh;">
+
+                <div class="text-center py-4" style="border-bottom: 1px solid var(--border-solid);">
+                    <div style="width:80px; height:80px; border-radius:50%; border:2px solid var(--accent); background:var(--bg-mid); overflow:hidden; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(57,91,100,0.35);">
+                        <img src="{% static 'Assets/img/logo.png' %}" alt="HebraTech" style="width:100%; height:100%; object-fit:cover; filter:brightness(1.4) saturate(1.3);" />
+                    </div>
+                    <h6 class="graduate mb-0">Admin</h6>
+                    <small style="font-weight:600; font-size:0.78rem;">Mery Jeans</small>
+                </div>
+
+                <ul class="nav flex-column p-3">
+
+                    <li class="nav-item mb-2">
+                        <a href="#" onclick="cambiarSeccionLocal('section-dashboard')" class="nav-link sidebar-link">
+                            <i class="fas fa-home me-2" style="color: var(--accent) !important;"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a href="#" onclick="cambiarSeccionLocal('section-perfil')" class="nav-link sidebar-link">
+                            <i class="fas fa-user-circle me-2" style="color: var(--accent) !important;"></i>
+                            Perfil
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalUsuario" class="nav-link sidebar-link">
+                            <i class="fas fa-user-plus me-2" style="color: var(--accent) !important;"></i>
+                            Nuevo Usuario
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link sidebar-link" data-bs-toggle="collapse" href="#usuariosMenu">
+                            <i class="fas fa-users me-2" style="color: var(--accent) !important;"></i>
+                            Módulos
+                            <i class="fas fa-caret-down ms-2"></i>
+                        </a>
+
+                        <div class="collapse show" id="usuariosMenu">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a href="#" onclick="cambiarSeccionLocal('section-gestion-usuarios')" class="nav-link sidebar-link">
+                                        Gestión Usuarios
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" onclick="cambiarSeccionLocal('section-operarios')" class="nav-link sidebar-link-sub">
+                                        <i class="fas fa-hard-hat me-2"></i>Operarios
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" onclick="cambiarSeccionLocal('section-clientes')" class="nav-link sidebar-link-sub">
+                                        <i class="fas fa-handshake me-2"></i>Clientes
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+
+            <main class="col-lg-10 col-md-9 p-0">
+
+                <nav class="navbar custom-navbar px-4 py-3 border-bottom border-secondary" style="background: linear-gradient(90deg, var(--primary) 0%, var(--primary-deep) 100%);">
+                    <div class="d-none d-md-flex align-items-center ms-3 gap-2">
+                        <span class="live-indicator me-1" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px var(--accent); animation: livePulse 1.5s infinite;"></span>
+                        <small style="color:#ffffff; font-weight:700; font-family:'Roboto',sans-serif; font-size:0.8rem; letter-spacing:0.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
+                            Sistema En Vivo
+                        </small>
+                    </div>
+
+                    <div class="ms-auto d-flex align-items-center gap-3">
+                        <div class="dropdown">
+                            <button class="btn position-relative d-flex align-items-center justify-content-center" data-bs-toggle="dropdown" type="button" style="width:40px; height:40px; border-radius:50%; border:1px solid rgba(165,201,202,0.35); color: var(--accent); background:transparent;">
+                                <i class="fas fa-bell"></i>
+                                <span id="badge-notificaciones" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none; font-size:0.65rem; padding: 3px 6px;">0</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" id="menu-notificaciones">
+                                <li><h6 class="dropdown-header">Notificaciones Recientes</h6></li>
+                            </ul>
+                        </div>
+                        <a href="#" class="btn" style="background: var(--accent); color: var(--primary-dark); font-weight: 600; border-radius: 8px;">Cerrar sesión</a>
+                    </div>
+                </nav>
+
+                <div class="container-fluid p-4">
+
+                    <div id="mensaje-bienvenida" class="dashboard-card mb-4">
+                        <div class="card-body">
+                            <h2 class="graduate mb-2" style="color: var(--primary-dark);">Hola, Administrador 👋</h2>
+                            <p class="mb-0" style="color: var(--inactive);">Bienvenido nuevamente al panel de gestión de HebraTech. Aquí puedes visualizar el estado general del sistema.</p>
+                        </div>
+                    </div>
+
+                    <div id="section-dashboard" class="seccion-admin">
+                        <div class="row g-4 mb-4">
+                            <div class="col-lg-4">
+                                <div class="dashboard-card h-100 p-3 shadow">
+                                    <h5 style="color: var(--primary-dark);"><i class="fas fa-hard-hat text-success me-2"></i>Operarios</h5>
+                                    <p class="small text-muted mt-2">Monitorea las tareas activas de tus líneas de corte y confección desde su módulo respectivo.</p>
+                                    <button class="btn btn-sm mt-2 w-100" style="border: 1.5px solid var(--primary); color:var(--primary); background:transparent; font-weight: 500;" onclick="resolverIncidencia()">Atender Incidencia Rápida</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="dashboard-card h-100 p-3 shadow">
+                                    <h5 style="color: var(--primary-dark);"><i class="fas fa-handshake text-info me-2"></i>Clientes</h5>
+                                    <p class="small text-muted mt-2">Administra y supervisa los despachos de dotaciones industriales y uniformes escolares.</p>
+                                    <button class="btn w-100 mt-2" style="background:var(--primary); color:var(--white);" onclick="cambiarSeccionLocal('section-clientes')">Ver Órdenes Comerciales</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="dashboard-card h-100 p-3 shadow">
+                                    <h5 style="color: var(--primary-dark);"><i class="fas fa-truck text-warning me-2"></i>Insumos</h5>
+                                    <p class="small text-muted mt-2">Revisa alertas de stock crítico en telas Oxford, hilos y herrajes textiles.</p>
+                                    <button class="btn w-100 mt-2" style="background:var(--primary); color:var(--white);" onclick="formularioProveedor()">Solicitar Material</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card p-3 shadow">
+                            <h4 class="mb-4" style="color: var(--primary); font-weight: 600;">Producción Semanal</h4>
+                            <canvas id="graficaProduccion"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="section-perfil" class="seccion-admin" style="display:none;">
+                        <div class="dashboard-card p-4 shadow">
+                            <h2 class="mb-4" style="color: var(--primary); font-family: var(--ff-display);"><i class="fas fa-user-cog me-2"></i>Perfil Administrativo</h2>
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3"><label class="form-label">Nombre</label><input type="text" class="form-control" placeholder="Mery" readonly></div>
+                                    <div class="col-md-6 mb-3"><label class="form-label">Apellido</label><input type="text" class="form-control" placeholder="Jeans" readonly></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="section-gestion-usuarios" class="seccion-admin" style="display:none;">
+                        <div class="dashboard-card p-4 shadow">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2 style="color: var(--primary);"><i class="fas fa-users-cog me-2"></i>Directorio de Usuarios</h2>
+                                <button class="btn" style="background: var(--primary); color: white;" data-bs-toggle="modal" data-bs-target="#modalUsuario">Agregar Usuario</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre Completo</th>
+                                            <th>Correo Electrónico</th>
+                                            <th>Rol</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for usuario in usuarios %}
+                                        <tr>
+                                            <td>#{{ usuario.id }}</td>
+                                            <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+                                            <td>{{ usuario.correo }}</td>
+                                            <td><span class="badge bg-secondary">{{ usuario.get_rol_display }}</span></td>
+                                            <td>
+                                                <a href="{% url 'administrador:eliminar_usuario' usuario.id %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr><td colspan="5" class="text-secondary py-4">No hay usuarios registrados en la base de datos.</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="section-operarios" class="seccion-admin" style="display:none;">
+                        <div class="dashboard-card p-4 shadow">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2 style="color: var(--primary);"><i class="fas fa-hard-hat me-2"></i>Gestión de Operarios</h2>
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalTarea"><i class="fas fa-plus me-2"></i>Asignar Tarea</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Operario</th>
+                                            <th>Tarea / Descripción</th>
+                                            <th>Línea</th>
+                                            <th>Límite</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for tarea in tareas %}
+                                        <tr>
+                                            <td>{{ tarea.operario }}</td>
+                                            <td>{{ tarea.descripcion }}</td>
+                                            <td>{{ tarea.linea }}</td>
+                                            <td>{{ tarea.fecha_limite }}</td>
+                                            <td><span class="badge bg-info">{{ tarea.prioridad }}</span></td>
+                                            <td>
+                                                <a href="{% url 'administrador:eliminar_tarea' tarea.id %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr><td colspan="6" class="text-secondary py-4">No hay tareas operativas activas.</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="section-clientes" class="seccion-admin" style="display:none;">
+                        <div class="dashboard-card p-4 shadow">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2 style="color: var(--primary);"><i class="fas fa-handshake me-2"></i>Gestión de Clientes</h2>
+                                <button class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#modalOrden"><i class="fas fa-plus me-2"></i>Crear Orden</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Producto</th>
+                                            <th>Cant.</th>
+                                            <th>Entrega</th>
+                                            <th>Pago</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for orden in ordenes %}
+                                        <tr>
+                                            <td>{{ orden.cliente }}</td>
+                                            <td>{{ orden.producto }}</td>
+                                            <td>{{ orden.cantidad }}</td>
+                                            <td>{{ orden.fecha_entrega }}</td>
+                                            <td><span class="badge bg-success">{{ orden.estado_pago }}</span></td>
+                                            <td>
+                                                <a href="{% url 'administrador:eliminar_orden' orden.id %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr><td colspan="6" class="text-secondary py-4">No hay órdenes comerciales registradas.</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <iframe id="marco-externo" style="display:none; width:100%; height:80vh; border:none; border-radius:8px;"></iframe>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalUsuario" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2" style="color: var(--primary);"></i>Nuevo Usuario</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{% url 'administrador:crear_usuario' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label small">Nombre</label>{{ form_usuario.nombre }}</div>
+                            <div class="col-md-6"><label class="form-label small">Apellido</label>{{ form_usuario.apellido }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6"><label class="form-label small">Correo</label>{{ form_usuario.correo }}</div>
+                            <div class="col-md-6"><label class="form-label small">Rol</label>{{ form_usuario.rol }}</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn" style="background: var(--primary); color: white;">Guardar Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTarea" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-hard-hat me-2" style="color: var(--primary);"></i>Asignar Nueva Tarea</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{% url 'administrador:crear_tarea' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label small">Operario</label>{{ form_tarea.operario }}</div>
+                            <div class="col-md-6"><label class="form-label small">Línea</label>{{ form_tarea.linea }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-12"><label class="form-label small">Tarea / Descripción</label>{{ form_tarea.descripcion }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6"><label class="form-label small">Fecha Inicio</label>{{ form_tarea.fecha_inicio }}</div>
+                            <div class="col-md-6"><label class="form-label small">Fecha Límite</label>{{ form_tarea.fecha_limite }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6"><label class="form-label small">Prioridad</label>{{ form_tarea.prioridad }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-12"><label class="form-label small">Observaciones</label>{{ form_tarea.observaciones }}</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Asignar Tarea</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalOrden" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-handshake me-2" style="color: var(--primary);"></i>Crear Nueva Orden</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{% url 'administrador:crear_orden' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label small">Cliente</label>{{ form_orden.cliente }}</div>
+                            <div class="col-md-6"><label class="form-label small">NIT / Documento</label>{{ form_orden.nit }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6"><label class="form-label small">Teléfono</label>{{ form_orden.telefono }}</div>
+                            <div class="col-md-6"><label class="form-label small">Correo</label>{{ form_orden.correo }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6"><label class="form-label small">Producto Solicitado</label>{{ form_orden.producto }}</div>
+                            <div class="col-md-6"><label class="form-label small">Cantidad</label>{{ form_orden.cantidad }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6"><label class="form-label small">Fecha de Entrega</label>{{ form_orden.fecha_entrega }}</div>
+                            <div class="col-md-6"><label class="form-label small">Estado de Pago</label>{{ form_orden.estado_pago }}</div>
+                        </div>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-12"><label class="form-label small">Especificaciones</label>{{ form_orden.especificaciones }}</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-info" style="color: white;">Crear Orden</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/admin.js' %}"></script>
+</body>
+</html>
